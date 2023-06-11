@@ -19,13 +19,14 @@ class JaDB
         $charset_collate = self::$wpdb->get_charset_collate();
         $table_name = self::$wpdb->prefix . 'reviews';
 
+        print('here');
         $sql = "CREATE TABLE $table_name (
         id int(11) NOT NULL AUTO_INCREMENT,
         review_stars int(255) NULL,
         reviewer_img varchar(500)  NULL,
         review_content text  NULL,
         reviewer_name varchar(255) NULL,
-        review_date varcahr(255) NULL,
+        review_date varchar(255) NULL,
         PRIMARY KEY (id)
       ) $charset_collate;";
 

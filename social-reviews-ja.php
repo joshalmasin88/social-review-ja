@@ -68,6 +68,8 @@ class SocialReviewsJa
     public function deactivationHook() 
     {
         delete_option( 'social_reviews_api_key' );
+        delete_option( 'social_reviews_dataID' );
+
         require_once( plugin_dir_path( __FILE__ ). 'includes/Db.php');
         JaDB::dropDbTable();
     }
@@ -82,6 +84,8 @@ class SocialReviewsJa
     public function uninstallHook()
     {
         delete_option( 'social_reviews_api_key' );
+        delete_option( 'social_reviews_dataID' );
+
         require_once( plugin_dir_path( __FILE__ ). 'includes/Db.php');
         JaDB::dropDbTable();
     }
@@ -99,8 +103,9 @@ class SocialReviewsJa
 
     public function handleFrontEnd()
     {
+        ob_start();
         require_once( plugin_dir_path( __FILE__ ) . 'frontend/shortcode-widget.php' );
-        return $html;
+        return ob_get_clean();
 
     }
 }
