@@ -19,7 +19,6 @@ class JaDB
         $charset_collate = self::$wpdb->get_charset_collate();
         $table_name = self::$wpdb->prefix . 'reviews';
 
-        print('here');
         $sql = "CREATE TABLE $table_name (
         id int(11) NOT NULL AUTO_INCREMENT,
         review_stars int(255) NULL,
@@ -32,7 +31,6 @@ class JaDB
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
-        return true;
     }
 
 
@@ -61,6 +59,7 @@ class JaDB
             )
         );
     }
+
 
     public static function is_table_exists()
     {
