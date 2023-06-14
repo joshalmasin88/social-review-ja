@@ -21,7 +21,7 @@ class Api
             $reviews = $data['place_reviews_results'];
 
             require_once(plugin_dir_path(__FILE__) . 'Db.php');
-            if ( isset($reviews)) {
+            if (isset($reviews)) {
                 for ($i = 0; $i < count($reviews); $i++) {
 
                     $name =  $reviews[$i]['source'];
@@ -30,7 +30,17 @@ class Api
                     $reviewer_img =  $reviews[$i]['source_image'];
                     $date =  $reviews[$i]['date'];
 
-                    JaDB::insertReview($name, $body, $rating, $reviewer_img, $date);
+                    // Check if the review already exists in the database
+                    $existing_review = JaDB::getReviewByParams(array(
+                        'name' => $name,
+                        'rating' => $rating
+                    ));
+
+                    // If the review does not exist, insert it into the database
+                    if (!$existing_review) {
+                        JaDB::insertReview($name, $body, $rating, $reviewer_img, $date);
+                        echo('New Review| Making <br>');
+                    }
                 }
             } else {
                 add_settings_error(
@@ -59,6 +69,18 @@ class Api
                 'social_reviews_notice',
                 esc_attr('settings_error'),
                 __('Looks like you ran out of credits, Go purchase more at: https://app.scaleserp.com/login', 'social-reviews-ja'),
+                'error'
+            );
+
+            return false;
+        }
+
+        if (strpos($http_response_header[0], '400') !== false) {
+            // Show 401 Unauthorized
+            add_settings_error(
+                'social_reviews_notice',
+                esc_attr('settings_error'),
+                __('Please check the API and Feature IDS', 'social-reviews-ja'),
                 'error'
             );
 

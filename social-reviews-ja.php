@@ -37,6 +37,7 @@ class SocialReviewsJa
 
         add_action( 'admin_menu', array( $this, 'admin_settings_menu' ));
         add_shortcode( 'social-shortcode', array( $this, 'handleFrontEnd') );
+        add_action( 'wp', array($this, 'update_reviews_weekly') );
     }
 
 
@@ -107,6 +108,21 @@ class SocialReviewsJa
         require_once( plugin_dir_path( __FILE__ ) . 'frontend/shortcode-widget.php' );
         return ob_get_clean();
 
+    }
+
+    public function update_reviews_weekly()
+    {
+        if ( !wp_next_scheduled('grab_new_reviews'))
+        {
+            wp_schedule_event(time(), 'weekly', 'grab_new_reviews');
+        }
+    }
+
+    public function grab_new_reviews()
+    {
+        require_once( plugin_dir_path( __FILE__ ) . 'includes/Api.php');
+        $api = new Api();
+        $api->fetchReviews();
     }
 }
 

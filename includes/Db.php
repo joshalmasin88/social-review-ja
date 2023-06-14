@@ -69,6 +69,21 @@ class JaDB
             self::createDbTables();
         }
     }
+
+    public static function getReviewByParams($params) {
+        global $wpdb;
+
+        $query = "SELECT * FROM {$wpdb->prefix}reviews WHERE reviewer_name = %s AND review_stars = %d";
+        $prepared_query = $wpdb->prepare($query, $params['name'], $params['rating']);
+
+        $result = $wpdb->get_row($prepared_query, ARRAY_A);
+
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+    }
 }
 
 JaDB::init();
