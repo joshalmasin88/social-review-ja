@@ -35,12 +35,16 @@ class Api
                         'name' => $name,
                         'rating' => $rating
                     ));
-
-                    // If the review does not exist, insert it into the database
-                    if (!$existing_review) {
-                        JaDB::insertReview($name, $body, $rating, $reviewer_img, $date);
-                        echo('New Review| Making <br>');
+                    
+                    $words = explode(" ", $body);
+                    if (count($words) > 8) {
+                        // If the review does not exist, insert it into the database
+                        if (!$existing_review) {
+                            JaDB::insertReview($name, $body, $rating, $reviewer_img, $date);
+                        }
                     }
+
+
                 }
             } else {
                 add_settings_error(

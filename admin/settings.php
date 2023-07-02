@@ -2,7 +2,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-require_once(ABSPATH . '/wp-content/plugins/social-reviews-ja/includes/api.php');
+require_once(WFR_BASE_PATH . '/includes/api.php');
 
 $api = new Api();
 /**

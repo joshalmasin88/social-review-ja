@@ -6,7 +6,7 @@
 
  if ( ! defined( 'ABSPATH' )) exit;
 
- require_once( ABSPATH . '/wp-content/plugins/social-reviews-ja/includes/Db.php');
+ require_once(WFR_BASE_PATH . '/wp-content/plugins/social-reviews-ja/includes/Db.php');
  
 $reviews = JaDB::fetchReviews();
 
